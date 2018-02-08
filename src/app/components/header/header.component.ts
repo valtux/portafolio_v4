@@ -1,6 +1,6 @@
 import { Component} from '@angular/core';
 import {InformacionService} from "../../services/informacion.service";
-// import {RouterModule} from "@angular.router";
+
 import {Router} from "@angular/router";
 
 @Component({
@@ -12,11 +12,13 @@ export class HeaderComponent {
   constructor (public _is:InformacionService,
               public route:Router){}
 
-  public buscar_producto(termino:string){
+  public  buscar_producto(termino:string){
 
-    // console.log(termino);
-    this.route.navigate(['buscar'], termino);
+     console.log(termino);
+    this.route.navigate(['buscar', termino]);
   }
+
+  // console.log( buscar_producto(termino:string));
 
 
 }

@@ -19,9 +19,32 @@ export class ProductosService {
     console.log("buscando producto");
     console.log(this.productos.length);
 
+    if (this.productos.length === 0){
+        this.cargar_productos().then( ()=>{
+          //termino la carga
+
+          this.filtrar_productos(termino);
+        });
+    }else{
+          this.filtrar_productos(termino);
+    }
+
+  }
+
+  public filtrar_productos(termino:string){
+
+    this.productos_filtrado = [];
+    termino = termino.toLowerCase();
+
     this.productos.forEach(prod =>{
-      console.log( prod );
+
+      if (prod.categoria.indexOf(termino) >= 0 || prod.titulo.toLowerCase().indexOf(termino) >= 0){
+        this.productos_filtrado.push(prod);
+        console.log(prod);
+      }
+      // console.log( prod );
     })
+
   }
 
   public cargar_producto(cod:string){
@@ -32,19 +55,24 @@ export class ProductosService {
   public cargar_productos(){
       this.cargando=true;
 
-    // if (this.productos.length === 0){
+      let promesa = new Promise(( resolve, rejet)=> {
+
+        // if (this.productos.length === 0){
 
         this.http.get('https://paginaweb-d7ee5.firebaseio.com/productos_idx.json')
-                .subscribe( res =>{
-                  // console.log(res.json());
+        .subscribe( res =>{
+          // console.log(res.json());
 
-                  // setTimeout( () => {
-                  this.cargando=false;
-                  this.productos = res.json();
+          // setTimeout( () => {
+          this.cargando=false;
+          this.productos = res.json();
+          resolve();
+          // }, 1500)
+        });
 
-                // }, 1500)
-              });
+        // }
+      });
+      return promesa;
 
-  // }
   }
 }
