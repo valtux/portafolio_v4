@@ -1,2 +1,6 @@
 git remote add origin https://github.com/valtux/portafolio_v4.git
 git push -u origin master
+git s
+git add .
+git commit
+git push -u origin master
